@@ -2717,6 +2717,14 @@ the current default location @file{~/.emacs.d/init.el} for the
 init file.
 @c  LocalWords:  backtab
 
+  The whole mechanism described above is bypassed if the
+@env{EMACS_USER_DIRECTORY} environment variable is specified, in which
+case Emacs directly looks for @file{init.el} inside the directory
+specified by @env{EMACS_USER_DIRECTORY} (@pxref{General Variables}).
+This directory is also used to hold user-specific configuration
+(@pxref{Standard File Names,,, elisp}).
+
+
 @node Init Non-ASCII
 @subsection Non-@acronym{ASCII} Characters in Init Files
 @cindex international characters in @file{.emacs}

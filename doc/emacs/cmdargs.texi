@@ -369,7 +369,9 @@ Do not reload any saved desktop.  @xref{Saving Emacs Sessions}.
 @opindex --user
 @cindex load init file of another user
 Load @var{user}'s initialization file instead of your
-own@footnote{This option has no effect on MS-Windows.}.
+own@footnote{This option has no effect on MS-Windows, nor when the
+@env{EMACS_USER_DIRECTORY} environment variable is set (@pxref{General
+Variables}).}.
 
 @item --debug-init
 @opindex --debug-init
@@ -694,6 +696,11 @@ does not use @env{TZ} at all.
 @vindex USER@r{, environment variable}
 The user's login name.  See also @env{LOGNAME}.  On MS-DOS, this
 defaults to @samp{root}.
+@item EMACS_USER_DIRECTORY
+This specifies a directory in which the initialization file will be
+looked for; @xref{Find Init}. This directory will also be used as the
+default place where user-specific configuration data will be stored;
+@xref{Standard File Names,,, elisp}.
 @item VERSION_CONTROL
 @vindex VERSION_CONTROL@r{, environment variable}
 Used to initialize the @code{version-control} variable (@pxref{Backup

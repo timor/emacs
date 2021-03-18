@@ -534,8 +534,12 @@ It is the default value of the variable `top-level'."
 	    (if xdg-config-home
 		(concat xdg-config-home "/emacs/")
 	      startup--xdg-config-default)))
+
+    (setq user-emacs-directory-from-env (getenv "EMACS_USER_DIRECTORY"))
+
     (setq user-emacs-directory
-	  (startup--xdg-or-homedot startup--xdg-config-home-emacs nil))
+	  (or user-emacs-directory-from-env
+              (startup--xdg-or-homedot startup--xdg-config-home-emacs nil)))
 
     ;; Look in each dir in load-path for a subdirs.el file.  If we
     ;; find one, load it, which will add the appropriate subdirs of
@@ -1016,7 +1020,7 @@ the `--debug-init' option to view a complete error backtrace."
 (defun command-line ()
   "A subroutine of `normal-top-level'.
 Amongst another things, it parses the command-line arguments."
- (let (xdg-dir startup-init-directory)
+ (let (xdg-dir startup-init-directory user-emacs-directory-from-env)
   (setq before-init-time (current-time)
 	after-init-time nil
         command-line-default-directory default-directory)
@@ -1210,7 +1214,11 @@ please check its value")
   ;; is following the ~INIT-FILE-USER/.emacs.d convention.
   (setq xdg-dir startup--xdg-config-home-emacs)
   (setq startup-init-directory
-	(if (or (zerop (length init-file-user))
+	(if (or user-emacs-directory-from-env ; If this is non-nil,
+                                              ; user-emacs-directory
+                                              ; has already been set
+                                              ; to its value
+                (zerop (length init-file-user))
 		(and (eq xdg-dir user-emacs-directory)
 		     (not (eq xdg-dir startup--xdg-config-default))))
 	    user-emacs-directory
